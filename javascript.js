@@ -1,51 +1,70 @@
-window.addEventListener("DOMContentLoaded", () => {
+let canvas = document.getElementById("juego");
+let ctx = canvas.getContext("2d");
 
-    const canvas = document.getElementById("gameCanvas");
-    const engine = new BABYLON.Engine(canvas, true);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    const createScene = function() {
-        const scene = new BABYLON.Scene(engine);
+let zona = {
+    radio: 700,
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    velocidad: 0.1
+};
 
-        // Cámara estilo FPS
-        const camera = new BABYLON.UniversalCamera("cam", new BABYLON.Vector3(0, 2, -5), scene);
-        camera.attachControl(canvas, true);
-        camera.speed = 0.4;
+let jugador = {
+    x: Math.random() * canvas.width,
+    y: 0,
+    cayendo: true,
+    vivo: true
+};
 
-        // Luz
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,1,0), scene);
+let zombies = [];
+for (let i = 0; i < 500; i++) {
+    zombies.push({
+        x: Math.random() * canvas.width * 3 - canvas.width,
+        y: Math.random() * canvas.height * 3 - canvas.height
+    });
+}
 
-        // Piso
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", {
-            width: 200,
-            height: 200
-        }, scene);
+function iniciarJuego() {
+    document.getElementById("menu").style.display = "none";
+    loop();
+}
 
-        const groundMat = new BABYLON.StandardMaterial("gmat", scene);
-        groundMat.diffuseColor = new BABYLON.Color3(0.2, 0.7, 0.2);
-        ground.material = groundMat;
+function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Zombie placeholder
-        BABYLON.SceneLoader.ImportMesh(
-            "",
-            "assets/models/",
-            "placeholder_model.gltf",
-            scene,
-            function(meshes) {
-                const zombie = meshes[0];
-                zombie.position = new BABYLON.Vector3(0, 0, 5);
-            }
-        );
+    // ZONA AZUL
+    ctx.strokeStyle = "blue";
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.arc(zona.x, zona.y, zona.radio, 0, 2 * Math.PI);
+    ctx.stroke();
 
-        return scene;
-    };
+    // CIERRE DE ZONA
+    if (zona.radio > 100) zona.radio -= zona.velocidad;
 
-    let scene;
+    // JUGADOR
+    if (jugador.cayendo) jugador.y += 5;
+    if (jugador.y > canvas.height - 50) jugador.cayendo = false;
 
-    document.getElementById("playBtn").onclick = () => {
-        document.getElementById("hud").style.display = "none";
-        scene = createScene();
-        engine.runRenderLoop(() => scene.render());
-    };
+    ctx.fillStyle = "white";
+    ctx.fillRect(jugador.x, jugador.y, 20, 20);
 
-    window.addEventListener("resize", () => engine.resize());
-});
+    // ZOMBIES FUERA DE ZONA
+    ctx.fillStyle = "green";
+    zombies.forEach(z => {
+        let dist = Math.hypot(z.x - zona.x, z.y - zona.y);
+        if (dist > zona.radio + 100) {
+            ctx.fillRect(z.x, z.y, 10, 10);
+
+            // matar jugador si sale
+            let distJugador = Math.hypot(jugador.x - z.x, jugador.y - z.y);
+            if (distJugador < 20) jugador.vivo = false;
+        }
+    });
+
+    if (!jugador.vivo) {
+        alert("HAS MUERTO FUERA DE ZONA");
+        location.reload();
+        return;
