@@ -1,46 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zona Roja Z</title>
-  <link rel="stylesheet" href="estilo.css">
+    <meta charset="UTF-8" />
+    <title>Zona Roja Z</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 </head>
+
 <body>
-
-  <header>
-    <h1>ZONA ROJA Z</h1>
-    <p>Battle Royale - Sin anuncios</p>
-  </header>
-
-  <section class="tienda">
-    <h2>Tienda Z</h2>
-    <p>💰 5 soles = 500 monedas</p>
-    <p>🎫 Pase Z cuesta: <strong>500 monedas</strong></p>
-  </section>
-
-  <section class="personajes">
-    <h2>Personajes</h2>
-
-    <div class="personaje">
-      <h3>🔥 Fénix</h3>
-      <p>Habilidad: Renacer con 20% de vida</p>
+    <div id="hud">
+        <h1>ZONA ROJA Z</h1>
+        <button id="playBtn">Iniciar Juego</button>
     </div>
 
-    <div class="personaje">
-      <h3>⚡ Rayo</h3>
-      <p>Habilidad: Velocidad máxima por 5 segundos</p>
-    </div>
-
-    <div class="personaje">
-      <h3>🛡 Titan</h3>
-      <p>Habilidad: Escudo extra de 100 puntos</p>
-    </div>
-
-  </section>
-
-  <button id="btnMensaje">Probar Mensaje</button>
-  
-  <script src="script.js"></script>
+    <canvas id="gameCanvas"></canvas>
+    <script src="js/game.js"></script>
 </body>
-                            </html>
+</html>
