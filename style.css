@@ -1,46 +1,32 @@
-body {
-  margin: 0;
-  padding: 0;
-  background: #111;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #000;
+    font-family: Arial, sans-serif;
 }
 
-header {
-  background: #b00000;
-  padding: 20px;
-  box-shadow: 0 0 15px #ff0000;
+#gameCanvas {
+    width: 100vw;
+    height: 100vh;
+    touch-action: none;
 }
 
-.tienda, .personajes {
-  margin: 20px;
-  padding: 15px;
-  background: #1a1a1a;
-  border-radius: 10px;
-  box-shadow: 0 0 10px red;
+#hud {
+    position: absolute;
+    z-index: 5;
+    top: 20px;
+    left: 20px;
+    color: white;
+    text-shadow: 0px 0px 10px black;
 }
 
-.personaje {
-  margin: 10px;
-  padding: 10px;
-  background: #222;
-  border-radius: 8px;
-  box-shadow: 0 0 6px #ff3b3b;
+#playBtn {
+    padding: 12px 25px;
+    background: red;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
 }
-
-button {
-  background: red;
-  border: none;
-  padding: 15px 25px;
-  color: white;
-  font-size: 18px;
-  border-radius: 10px;
-  margin-top: 20px;
-  cursor: pointer;
-  box-shadow: 0 0 10px red;
-}
-
-button:hover {
-  background: #ff4040;
-  }
